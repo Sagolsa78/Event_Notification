@@ -74,7 +74,7 @@ const EventSchema= new mongoose.Schema({
 const NotifyMessage= new mongoose.Schema({
     username:{
         type:String,
-        required:true,
+    
 
     },
     message:{

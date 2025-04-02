@@ -2,7 +2,7 @@ const express = require("express");
 const { authMiddleware, authenticateSkt } = require("../middleware");
 const {Server}=require("socket.io")
 const router = express.Router();
-const {Notification}= require("../db")
+const {Notification, User}= require("../db")
 const http = require("http");  
 const { error } = require("console");
 const server = http.createServer();
@@ -46,19 +46,29 @@ router.get("/notification",authMiddleware,async function(req,res){
 
 
 router.post("/notification",authMiddleware,async function (req,res){
-    // try{
-        const {userId,message,type}=req.body;
-        const notification= new Notification({userId,message,type});
+
+        const { username, message, type } = req.body;
+
+  
+        if (!username || !message || !type) {
+            return res.status(400).json({ error: "Missing required fields" });
+        }
+
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+    
+        const userId = user._id;
+        const notification = new Notification({ userId, message, type });
         await notification.save();
 
-        io.to(userId).emit("notification",notification);
+
+        io.to(userId.toString()).emit("notification", notification);
 
         res.status(201).json(notification);
-
-    // } catch (error){
-    //     res.status(500).json({error:"failed to create Notification"});
-
-    // }
+    // 
     console.log(error);
 
 
