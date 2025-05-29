@@ -70,6 +70,9 @@ This project is open source and available under the MIT License.
 
 ## 📬 Contact
 Mohit Sahani
-Email: sahanimohit5ed@gmail.com
+
+Email: sahanimohit5ed@gmail.com 
+
 GitHub: @Sagolsa78
+
 Portfolio: myportfolio-two-delta-35.vercel.app
